@@ -1,0 +1,5 @@
+#! /bin/bash
+# This script is used to run the create-world-app CLI
+# It is used to create a new world app
+
+npx tsx ./index.ts "$@"
