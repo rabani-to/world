@@ -12,9 +12,13 @@ const program = new Command()
 
 program
   .name("create-world-app")
-  .description("Scaffold a new world mini-app faster")
+  .description("Scaffold world mini-apps faster")
   .argument("<name>", "Project name")
-  .option("--template <template>", "Template to use (e.g., ts, js)", "ts")
+  .option(
+    "--template <template>",
+    "Template to use (next14, next15, vite)",
+    "next15"
+  )
   .action((name, options) => {
     console.log(pc.cyan(`\n🚀 Creating project: ${pc.bold(name)}`))
     console.log(pc.green(`✓ Using template: ${pc.bold(options.template)}\n`))
