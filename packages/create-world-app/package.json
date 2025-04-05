@@ -1,23 +1,21 @@
 {
-  "name": "create-world-app",
-  "version": "0.0.0",
-  "keywords": [
-    "world",
-    "worldcoin",
-    "worldchain"
-  ],
-  "description": "A CLI tool to create world mini apps",
-  "license": "MIT",
-  "scripts": {},
-  "bin": {
-    "create-world-app": "./dist/index.js"
+  "name": "world",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint"
   },
-  "files": [
-    "dist"
-  ],
   "devDependencies": {
-    "@types/node": "^22.14.0",
-    "commander": "^13.1.0",
-    "picocolors": "^1.1.1"
-  }
+    "prettier": "^3.5.3",
+    "turbo": "^2.5.0",
+    "typescript": "5.8.2"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "npm@10.1.0",
+  "workspaces": [
+    "packages/*"
+  ]
 }
