@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "target": "es2019",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "esModuleInterop": true
+  },
+  "exclude": ["dist", "example"]
+}

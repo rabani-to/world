@@ -1,12 +1,32 @@
 {
-  "name": "world",
-  "private": true,
+  "name": "create-world-app",
+  "description": "Scaffold world mini-apps faster",
+  "version": "0.0.1-alpha.2",
+  "keywords": [
+    "worldchain",
+    "worldcoin",
+    "world"
+  ],
+  "bin": {
+    "create-world-app": "./dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rabani-to/world",
+    "directory": "packages/create-world-app"
+  },
+  "author": "Denny Portillo <d3portillo@gmail.com>",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev",
-    "lint": "turbo run lint"
+    "build": "ncc build ./index.ts -o ./dist/ --minify --no-cache --no-source-map-register"
   },
   "devDependencies": {
+    "@types/cross-spawn": "^6.0.6",
+    "@vercel/ncc": "^0.38.3",
+    "picocolors": "^1.1.1",
     "prettier": "^3.5.3",
     "turbo": "^2.5.0",
     "typescript": "5.8.2"

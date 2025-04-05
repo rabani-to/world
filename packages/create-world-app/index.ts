@@ -4,6 +4,7 @@ import fs from "fs/promises"
 import path from "path"
 import pc from "picocolors"
 import { Command } from "commander"
+
 import {
   extractRepoFiles,
   getGithubRepo,
@@ -11,7 +12,7 @@ import {
   terminateWithError,
 } from "./helpers"
 import { install } from "./install"
-import { getTemplateFolder, Template } from "./templates"
+import { getTemplateFolder } from "./templates"
 
 const handleSigTerm = () => process.exit(0)
 
