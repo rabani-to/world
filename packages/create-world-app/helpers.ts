@@ -2,6 +2,7 @@ import fs from "fs/promises"
 import os from "os"
 import path from "path"
 import pc from "picocolors"
+import { outro } from "@clack/prompts"
 import { Readable } from "stream"
 import { x } from "tar"
 
@@ -40,7 +41,7 @@ export const extractRepoFiles = async (repo: Promise<Response>) => {
 }
 
 export const terminateWithError = (message: string) => {
-  console.error(pc.red(`❌ ${message}`))
+  outro(pc.red(`❌ ${message}`))
   process.exit(1)
 }
 

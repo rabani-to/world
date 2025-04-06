@@ -2,8 +2,6 @@
  * @implements https://github.com/vercel/next.js/blob/canary/packages/create-next-app/helpers/install.ts
  */
 
-/* eslint-disable import/no-extraneous-dependencies */
-import { yellow } from "picocolors"
 import spawn from "cross-spawn"
 import type { PackageManager } from "./helpers"
 
@@ -26,7 +24,7 @@ export async function install(
      * Spawn the installation process.
      */
     const child = spawn(packageManager, args, {
-      stdio: "inherit",
+      stdio: ["ignore", "pipe", "pipe"], // buffer stdout/stderr
       env: {
         ...process.env,
         ADBLOCK: "1",

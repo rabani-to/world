@@ -21,9 +21,10 @@
     "dist"
   ],
   "scripts": {
-    "build": "ncc build ./index.ts -o ./dist/ --minify --no-cache --no-source-map-register"
+    "build": "tsc && ncc build ./index.ts -o ./dist/ --minify --no-cache --no-source-map-register"
   },
   "devDependencies": {
+    "@clack/prompts": "^0.10.0",
     "@types/cross-spawn": "^6.0.6",
     "@vercel/ncc": "^0.38.3",
     "picocolors": "^1.1.1",

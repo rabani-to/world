@@ -3,7 +3,12 @@
     "target": "es2019",
     "moduleResolution": "bundler",
     "strict": true,
-    "esModuleInterop": true
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "skipLibCheck": false,
+    "rootDir": ".",
+    "outDir": "./dist",
+    "noEmit": true
   },
-  "exclude": ["dist", "example"]
+  "exclude": ["dist", "example", "test", "temp"]
 }
