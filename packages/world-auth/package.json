@@ -1,0 +1,40 @@
+{
+  "name": "@radish-la/world-auth",
+  "version": "0.0.1-alpha.1",
+  "description": "Extending World Auth SDK for React",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --minify --clean"
+  },
+  "keywords": [
+    "worldchain",
+    "worldcoin",
+    "world"
+  ],
+  "author": "Denny Portillo <d3portillo@gmail.com>",
+  "license": "MIT",
+  "peerDependencies": {
+    "@worldcoin/minikit-js": "^1.8.0",
+    "jotai": "^2.0.0",
+    "react": "^18.0.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.1",
+    "@worldcoin/minikit-js": "^1.8.0",
+    "jotai": "^2.12.2",
+    "react": "18",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.3"
+  }
+}
