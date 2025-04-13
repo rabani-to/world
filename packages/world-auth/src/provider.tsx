@@ -1,12 +1,10 @@
-"use client"
-
 import { MiniKit } from "@worldcoin/minikit-js"
-import { type PropsWithChildren, useEffect } from "react"
+import { type PropsWithChildren, useEffect, useRef } from "react"
 import { Settings, useAtomSettings, useWorldUser } from "./atoms"
 import { getSessionKey, getStoredSession } from "./helpers"
 import { useWorldAuth } from "./core"
 
-export default function Provider({
+export function WorldAppProvider({
   children,
   appId,
   appName,
@@ -14,34 +12,39 @@ export default function Provider({
   onWrongEnvironment,
 }: PropsWithChildren<Settings>) {
   const [, setSettings] = useAtomSettings()
-  const [_, setUser] = useWorldUser()
+  const [, setUser] = useWorldUser()
   const { signOut } = useWorldAuth()
 
+  const validatorRef = useRef(withValidator)
+  const onWrongEnvRef = useRef(onWrongEnvironment)
+
   useEffect(() => {
-    MiniKit.install()
-  }, [])
+    validatorRef.current = withValidator
+    onWrongEnvRef.current = onWrongEnvironment
+  })
 
   useEffect(() => {
     setSettings((prev) => ({
       ...prev,
       appId,
       appName,
-      withValidator,
-      onWrongEnvironment,
+      withValidator: validatorRef.current,
+      onWrongEnvironment: onWrongEnvRef.current,
     }))
-  }, [appId, appName, withValidator, onWrongEnvironment])
+  }, [appId, appName])
 
   useEffect(() => {
-    // Check localStorage for saved session data
     const session = getStoredSession(getSessionKey(appName))
     if (session) {
-      withValidator(session).then(({ isValid }) => {
-        if (isValid) {
-          setUser(session.user)
-        } else signOut() // Clear the session if it's invalid
+      validatorRef.current(session).then(({ isValid }) => {
+        isValid ? setUser(session.user) : signOut()
       })
     }
-  }, [appName, withValidator])
+  }, [appName])
+
+  useEffect(() => {
+    MiniKit.install()
+  }, [])
 
   return children
 }

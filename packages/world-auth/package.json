@@ -1,25 +1,30 @@
 {
   "name": "@radish-la/world-auth",
-  "version": "0.0.1-alpha.1",
+  "version": "0.0.1-alpha.12",
   "description": "Extending World Auth SDK for React",
   "private": false,
   "publishConfig": {
     "access": "public"
   },
-  "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "files": [
     "dist"
   ],
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "require": "./dist/index.js"
+    },
+    "./server": {
+      "types": "./dist/server.d.ts",
+      "import": "./dist/server.mjs",
+      "require": "./dist/server.js"
     }
   },
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts --minify --clean && rm dist/index.d.mts"
+    "build": "tsup && rm dist/*.d.mts"
   },
   "keywords": [
     "worldchain",

@@ -1,5 +1,3 @@
-"use client"
-
 import type { Address, MiniKitUser } from "./types"
 import { useEffect, useState } from "react"
 import { MiniKit } from "@worldcoin/minikit-js"
@@ -7,39 +5,48 @@ import { MiniKit } from "@worldcoin/minikit-js"
 import { useAtomSettings, useWorldUser } from "./atoms"
 import { generateUUID, getSessionKey } from "./helpers"
 
-export const useWorldAuth = () => {
+export const useWorldAuth = ({
+  onWrongEnvironment,
+  onLoginSuccess,
+  onLoginError,
+}: {
+  onWrongEnvironment?: () => void
+  onLoginSuccess?: (user: MiniKitUser) => void
+  onLoginError?: (error: Error) => void
+} = {}) => {
   const [settings] = useAtomSettings()
-  const [isSyncing, setIsSyncing] = useState(false)
+  const [isConnecting, setIsConnecting] = useState(false)
   const [user, setUser] = useWorldUser()
   const sessionKey = getSessionKey(settings.appName)
 
   const signOut = () => {
     // Clear the session from localStorage and update the user state
     localStorage.removeItem(sessionKey)
-    setUser(null)
-    setIsSyncing(false)
+    setUser(clearConnectState())
   }
 
-  const terminateSync = () => {
-    setIsSyncing(false)
+  const clearConnectState = () => {
+    setIsConnecting(false)
     return null
   }
 
-  const signInWithWallet = async () => {
-    console.debug("signInWithWallet")
-
+  const signIn = async () => {
     if (!MiniKit?.isInstalled()) {
-      console.error("MiniKit not installed")
-      return terminateSync()
+      console.error("MiniKit:NotInstalled")
+      ;(onWrongEnvironment || settings.onWrongEnvironment)?.()
+      return clearConnectState()
     }
 
     try {
-      setIsSyncing(true)
+      setIsConnecting(true)
       const { payload, nonce } = await generateAuthPayload(settings.appName)
 
       if (payload.status === "error") {
-        console.error("Error generating payload", payload)
-        return terminateSync()
+        throw new Error("PayloadError")
+      }
+
+      if (typeof settings.withValidator !== "function") {
+        throw new Error("NoValidatorFound")
       }
 
       const { isValid } = await settings.withValidator({
@@ -47,10 +54,7 @@ export const useWorldAuth = () => {
         payload,
       })
 
-      if (!isValid) {
-        console.error("Invalid session")
-        return terminateSync()
-      }
+      if (!isValid) throw new Error("InvalidSession")
 
       let user = MiniKit.user as MiniKitUser | null
 
@@ -74,18 +78,22 @@ export const useWorldAuth = () => {
         })
       )
 
+      onLoginSuccess?.(user)
       setUser(user) // Update the user info
       return user
-    } catch (error) {
-      console.debug({ error })
+    } catch (error: any) {
+      console.error("Error:", error)
+      onLoginError?.(error)
     }
 
-    return terminateSync()
+    return clearConnectState()
   }
 
   useEffect(() => {
     // Cancel syncing if user wallet is found
-    if (user?.walletAddress) setIsSyncing(false)
+    if (user?.walletAddress) setIsConnecting(false)
+
+    // Get user metadata from wallet if not present in inital login
     if (!user?.username && user?.walletAddress) {
       MiniKit.getUserByAddress(user.walletAddress).then((user) => {
         if (user.walletAddress) setUser(user as any)
@@ -94,10 +102,13 @@ export const useWorldAuth = () => {
   }, [user])
 
   return {
-    signInWithWallet,
+    signIn,
+    user,
+    /** (WARN) Force set world user your self*/
+    reklesslySetUser: setUser,
     signOut,
-    isSyncing,
-    isLoggedIn: Boolean(user),
+    isConnecting,
+    isConnected: Boolean(user),
   }
 }
 
@@ -109,7 +120,7 @@ async function generateAuthPayload(appName: string) {
       new Date().getTime() + 7 * 24 * 60 * 60 * 1000 // 7 days
     ),
     notBefore: new Date(new Date().getTime() - 24 * 60 * 60 * 1000), // 1 day ago
-    statement: `Confirm to allow ${appName || "app"} view your wallet.`,
+    statement: `Allow ${appName || "this app"} to view your wallet.`,
   })
 
   return { payload, nonce }

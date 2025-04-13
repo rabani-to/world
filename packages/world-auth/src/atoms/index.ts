@@ -1,9 +1,7 @@
-"use client"
-
-import type { MiniKitUser, WalletSession } from "../types"
+import type { WalletSession } from "../types"
 import { useMemo } from "react"
 import { atom, useAtom } from "jotai"
-import { atomWithStorage } from "jotai/utils"
+import { getSessionKey, getStoredSession } from "../helpers"
 
 export type Settings = {
   appId?: string
@@ -19,12 +17,10 @@ export const useAtomSettings = () => useAtom(atomSetings)
 
 export const useWorldUser = () => {
   const [config] = useAtomSettings()
-  const atom = useMemo(() => {
-    return atomWithStorage<MiniKitUser | null>(
-      `__user__world__${config.appName || "__"}`,
-      null
-    )
+  const atomUser = useMemo(() => {
+    const session = getStoredSession(getSessionKey(config.appName))
+    return atom(session?.user || null)
   }, [config.appName])
 
-  return useAtom(atom)
+  return useAtom(atomUser)
 }
