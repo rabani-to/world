@@ -1,0 +1,36 @@
+{
+  "name": "template-next-15",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@radish-la/world-auth": "^0.0.1-alpha.16",
+    "@worldcoin/mini-apps-ui-kit-react": "^0.0.8",
+    "@worldcoin/minikit-js": "^1.8.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "jotai": "^2.12.2",
+    "lucide-react": "^0.488.0",
+    "next": "15.3.0",
+    "next-themes": "^0.4.6",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "sonner": "^2.0.3",
+    "tailwind-merge": "^3.2.0",
+    "tw-animate-css": "^1.2.5"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eruda": "^3.4.1",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
