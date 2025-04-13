@@ -1,12 +1,13 @@
 {
   "name": "create-world-app",
+  "version": "0.0.1-alpha.5",
   "description": "Scaffold world mini-apps faster",
-  "version": "0.0.1-alpha.4",
   "keywords": [
     "worldchain",
     "worldcoin",
     "world"
   ],
+  "private": false,
   "bin": {
     "create-world-app": "./dist/index.js"
   },
@@ -29,14 +30,10 @@
     "@vercel/ncc": "^0.38.3",
     "picocolors": "^1.1.1",
     "prettier": "^3.5.3",
-    "turbo": "^2.5.0",
+    "tar": "^7.4.3",
     "typescript": "5.8.2"
   },
-  "engines": {
-    "node": ">=18"
-  },
-  "packageManager": "npm@10.1.0",
-  "workspaces": [
-    "packages/*"
-  ]
+  "dependencies": {
+    "commander": "^13.1.0"
+  }
 }

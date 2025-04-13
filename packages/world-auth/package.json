@@ -2,14 +2,19 @@
   "name": "@radish-la/world-auth",
   "version": "0.0.1-alpha.16",
   "description": "Extending World Auth SDK for React",
+  "keywords": [
+    "worldchain",
+    "worldcoin",
+    "world"
+  ],
   "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/rabani-to/world",
     "directory": "packages/world-auth"
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -31,11 +36,6 @@
   "scripts": {
     "build": "tsup && rm dist/*.d.mts"
   },
-  "keywords": [
-    "worldchain",
-    "worldcoin",
-    "world"
-  ],
   "author": "Denny Portillo <d3portillo@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
