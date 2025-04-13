@@ -5,8 +5,6 @@ import { MiniKit } from "@worldcoin/minikit-js"
 import { useAtomSettings, useWorldUser } from "./atoms"
 import { generateUUID, getSessionKey } from "./helpers"
 
-export const generateNonce = generateUUID
-
 export const useWorldAuth = ({
   onWrongEnvironment,
   onLoginSuccess,
@@ -41,7 +39,16 @@ export const useWorldAuth = ({
 
     try {
       setIsConnecting(true)
-      const { payload, nonce } = await generateAuthPayload(settings.appName)
+
+      const nonce = generateUUID()
+      const { finalPayload: payload } = await MiniKit.commandsAsync.walletAuth({
+        nonce,
+        expirationTime: new Date(
+          new Date().getTime() + 7 * 24 * 60 * 60 * 1000 // 7 days
+        ),
+        notBefore: new Date(new Date().getTime() - 24 * 60 * 60 * 1000), // 1 day ago
+        statement: `Allow ${settings.appName || "this app"} to view your wallet.`,
+      })
 
       if (payload.status === "error") {
         throw new Error("PayloadError")
@@ -58,7 +65,7 @@ export const useWorldAuth = ({
 
       if (!isValid) throw new Error("InvalidSession")
 
-      let user = MiniKit.user as MiniKitUser | null
+      let user = MiniKit.user as MiniKitUser
 
       if (!user) {
         // We create a new user object if it doesn't exist
@@ -74,9 +81,9 @@ export const useWorldAuth = ({
       localStorage.setItem(
         sessionKey,
         JSON.stringify({
-          user: MiniKit.user,
           nonce,
           payload,
+          user,
         })
       )
 
@@ -109,21 +116,8 @@ export const useWorldAuth = ({
     /** (WARN) Force set world user your self*/
     reklesslySetUser: setUser,
     signOut,
+    /** `true` when login modal is open in Mini App */
     isConnecting,
     isConnected: Boolean(user?.walletAddress),
   }
-}
-
-async function generateAuthPayload(appName: string) {
-  const nonce = generateNonce()
-  const { finalPayload: payload } = await MiniKit.commandsAsync.walletAuth({
-    nonce,
-    expirationTime: new Date(
-      new Date().getTime() + 7 * 24 * 60 * 60 * 1000 // 7 days
-    ),
-    notBefore: new Date(new Date().getTime() - 24 * 60 * 60 * 1000), // 1 day ago
-    statement: `Allow ${appName || "this app"} to view your wallet.`,
-  })
-
-  return { payload, nonce }
 }

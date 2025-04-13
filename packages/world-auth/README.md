@@ -45,7 +45,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
 }
 ```
 
-**Done 🥳**. You're now ready to consume the connected user and signin/signout.
+**Done 🥳**. You're now ready to interact with the connected user and `signin/signout` the user too.
 
 ---
 
@@ -65,3 +65,5 @@ const { user, isConnected, isConnecting, signIn, signOut } = useWorldAuth()
 // user.username
 // user.profilePictureUrl
 ```
+
+[🔍 See example next14 repo](https://github.com/rabani-to/world/blob/master/packages/template-next-14/app/layout.tsx#L55)
