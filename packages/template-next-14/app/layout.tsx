@@ -1,11 +1,13 @@
 import "./globals.css"
 import "@worldcoin/mini-apps-ui-kit-react/styles.css"
 
+import { WorldAppProvider } from "@radish-la/world-auth"
 import dynamic from "next/dynamic"
 import type { Metadata } from "next"
 import { Rubik, Sora } from "next/font/google"
 
 import { Toaster } from "@/components/ui/sonner"
+import { validator } from "./session"
 
 const fontRubik = Rubik({
   subsets: [],
@@ -50,7 +52,12 @@ export default function RootLayout({
           }}
           swipeDirections={["left", "top", "right", "bottom"]}
         />
-        <ErudaProvider>{children}</ErudaProvider>
+        <WorldAppProvider
+          appName="REPLACE_YOUR_APP_NAME"
+          withValidator={validator}
+        >
+          <ErudaProvider>{children}</ErudaProvider>
+        </WorldAppProvider>
       </body>
     </html>
   )

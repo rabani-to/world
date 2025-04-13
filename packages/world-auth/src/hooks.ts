@@ -1,6 +1,6 @@
-import { useWorldUser as useInterlaWorldUser } from "./atoms"
+import { useWorldUser as useInternalWorldUser } from "./atoms"
 
 export const useWorldUser = () => {
-  const [user] = useInterlaWorldUser()
-  return user
+  const [user] = useInternalWorldUser()
+  return user?.walletAddress ? user : null
 }

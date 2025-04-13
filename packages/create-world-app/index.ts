@@ -15,7 +15,7 @@ import {
   terminateWithError,
 } from "./helpers"
 import { install } from "./install"
-import { getTemplateFolder } from "./templates"
+import { getTemplateFolder, Template } from "./templates"
 
 const handleSigTerm = () => process.exit(0)
 
@@ -53,8 +53,12 @@ program
         options: [
           { value: "next15", label: "Next 15", hint: "default" },
           { value: "next14", label: "Next 14" },
-          { value: "vite", label: "Vite" },
-        ],
+          // TODO: vite - { value: "vite", label: "Vite" }
+        ] satisfies Array<{
+          value: Template
+          label: string
+          hint?: string
+        }>,
       })
     }
 

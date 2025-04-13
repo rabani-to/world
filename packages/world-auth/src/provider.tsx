@@ -46,5 +46,5 @@ export function WorldAppProvider({
     MiniKit.install()
   }, [])
 
-  return children
+  return <>{children}</>
 }

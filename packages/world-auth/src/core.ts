@@ -5,6 +5,8 @@ import { MiniKit } from "@worldcoin/minikit-js"
 import { useAtomSettings, useWorldUser } from "./atoms"
 import { generateUUID, getSessionKey } from "./helpers"
 
+export const generateNonce = generateUUID
+
 export const useWorldAuth = ({
   onWrongEnvironment,
   onLoginSuccess,
@@ -108,12 +110,12 @@ export const useWorldAuth = ({
     reklesslySetUser: setUser,
     signOut,
     isConnecting,
-    isConnected: Boolean(user),
+    isConnected: Boolean(user?.walletAddress),
   }
 }
 
 async function generateAuthPayload(appName: string) {
-  const nonce = generateUUID()
+  const nonce = generateNonce()
   const { finalPayload: payload } = await MiniKit.commandsAsync.walletAuth({
     nonce,
     expirationTime: new Date(
