@@ -15,22 +15,18 @@ Under the hood we use `verifySiweMessage` to verify if our stored session payloa
 
 We've added a small utility function to fasten this. Follow this steps:
 
-1. Create a file at root level (along with layout.{t,j}sx)
+1. Create a file at root level (along with layout.tsx) with the following:
 
-```sh
-touch session.tsx
-```
+```tsx
+// session.tsx
 
-2. Paste the following
-
-```ts
 "use server"
 
 import { validateSession } from "@radish-la/world-auth/server"
 export const validator = validateSession
 ```
 
-3. Lets define our World Provider
+2. Define the World Auth Provider
 
 ```tsx
 // layout.tsx
@@ -51,12 +47,14 @@ export default function RootLayout({ children }: PropsWithChildren) {
 
 **Done 🥳**. You're now ready to consume the connected user and signin/signout.
 
+---
+
 ## Usage
 
 ```ts
 import { useWorldAuth } from "@radish-la/world-auth"
 
-const { user, isConnected, isConnecting, signIn, signOut } = useWorldAppRadish()
+const { user, isConnected, isConnecting, signIn, signOut } = useWorldAuth()
 
 // isConnecting: When login modal is open
 // signIn: request access to user information for mini app
