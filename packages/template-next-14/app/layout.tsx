@@ -1,9 +1,9 @@
 import "./globals.css"
 import "@worldcoin/mini-apps-ui-kit-react/styles.css"
 
-import { WorldAppProvider } from "@radish-la/world-auth"
-import dynamic from "next/dynamic"
 import type { Metadata } from "next"
+import dynamic from "next/dynamic"
+import { WorldAppProvider } from "@radish-la/world-auth"
 import { Rubik, Sora } from "next/font/google"
 
 import { Toaster } from "@/components/ui/sonner"
@@ -22,7 +22,7 @@ const fontSora = Sora({
 })
 
 export const metadata: Metadata = {
-  title: "Template",
+  title: "Next14 - World Mini App Template",
   description: "Template",
 }
 
