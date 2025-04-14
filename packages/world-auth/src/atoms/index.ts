@@ -18,12 +18,12 @@ export const useAtomSettings = () => useAtom(atomSetings)
 const atomUser = atom(null as MiniKitUser | null)
 export const useWorldUser = () => {
   const [config] = useAtomSettings()
-  const [, setUser] = useAtom(atomUser)
+  const [user, setUser] = useAtom(atomUser)
 
   useEffect(() => {
     const session = getStoredSession(getSessionKey(config.appName))
     setUser(session?.user || null)
   }, [config.appName])
 
-  return useAtom(atomUser)
+  return [user, setUser] as const
 }

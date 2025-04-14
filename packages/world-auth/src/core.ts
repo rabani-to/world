@@ -16,6 +16,9 @@ export const useWorldAuth = ({
 } = {}) => {
   const [settings] = useAtomSettings()
   const [isConnecting, setIsConnecting] = useState(false)
+  const [isMiniApp, setIsMiniApp] = useState(
+    true // We optimistically assume we are in a mini app
+  )
   const [user, setUser] = useWorldUser()
   const sessionKey = getSessionKey(settings.appName)
 
@@ -36,7 +39,7 @@ export const useWorldAuth = ({
   }
 
   const signIn = async () => {
-    if (!MiniKit?.isInstalled()) {
+    if (!isMiniApp) {
       console.error("MiniKit:NotInstalled")
       ;(onWrongEnvironment || settings.onWrongEnvironment)?.()
       return clearConnectState()
@@ -109,11 +112,15 @@ export const useWorldAuth = ({
 
     // Get user metadata from wallet if not present in inital login
     if (!user?.username && user?.walletAddress) {
-      MiniKit.getUserByAddress(user.walletAddress).then((user) => {
-        if (user.walletAddress) setUser(user as any)
+      MiniKit.getUserByAddress(user.walletAddress).then((kitUser) => {
+        if (kitUser.walletAddress) setUser(kitUser as MiniKitUser)
       })
     }
   }, [user])
+
+  useEffect(() => {
+    setIsMiniApp(MiniKit?.isInstalled())
+  }, [settings.appName, settings.appId])
 
   const isConnected = Boolean(user?.walletAddress)
   return {
@@ -126,6 +133,8 @@ export const useWorldAuth = ({
     signOut,
     /** `true` when login modal is open in Mini App */
     isConnecting,
+    /** `true` when MiniKit is found and installed */
+    isMiniApp,
     isConnected,
   }
 }
