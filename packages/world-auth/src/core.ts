@@ -25,6 +25,11 @@ export const useWorldAuth = ({
     setUser(clearConnectState())
   }
 
+  /**
+   * Resets the connection state to false
+   * And intented to re-use returns null
+   * @returns null
+   */
   const clearConnectState = () => {
     setIsConnecting(false)
     return null
@@ -110,14 +115,17 @@ export const useWorldAuth = ({
     }
   }, [user])
 
+  const isConnected = Boolean(user?.walletAddress)
   return {
     signIn,
-    user,
+    // We don't expose user if not even wallet address is present
+    // To keep it consistent with the rest of the API
+    user: isConnected ? user : null,
     /** (WARN) Force set world user your self*/
     reklesslySetUser: setUser,
     signOut,
     /** `true` when login modal is open in Mini App */
     isConnecting,
-    isConnected: Boolean(user?.walletAddress),
+    isConnected,
   }
 }
