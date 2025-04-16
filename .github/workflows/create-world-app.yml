@@ -1,0 +1,34 @@
+name: Build & Run Create world App
+
+on:
+  push:
+    paths:
+      - "packages/create-world-app/**"
+      - "packages/template-*/**"
+      - "package.json"
+      - "package-lock.json"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build create-world-app
+        run: |
+          cd packages/create-world-app
+          npm run build
+
+      - name: Test CLI
+        run: npx create-world-app test --template next14
