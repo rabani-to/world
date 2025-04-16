@@ -1,6 +1,6 @@
 # Next 14 - World Mini App Template
 
-This is a template project to help fasten the develpoment of [World Mini Apps](https://docs.world.org/mini-apps) with Auth, ready to use UI Components and some extras.
+This template was generated with [create-world-app](https://www.npmjs.com/package/create-world-app). Fasten your develpoment on [World Mini Apps](https://docs.world.org/mini-apps) with ready-to-use Auth, hooks and ready UI components with helpers.
 
 ## Installation
 
