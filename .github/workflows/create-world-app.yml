@@ -7,6 +7,7 @@ on:
       - "packages/template-*/**"
       - "package.json"
       - "package-lock.json"
+      - ".github/workflows/create-world-app.yml"
 
 jobs:
   build:
@@ -31,4 +32,4 @@ jobs:
           npm run build
 
       - name: Test CLI
-        run: npx create-world-app test --template next14
+        run: node packages/create-world-app/dist/index.js test --template next14
