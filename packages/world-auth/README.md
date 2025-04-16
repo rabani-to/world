@@ -54,16 +54,19 @@ export default function RootLayout({ children }: PropsWithChildren) {
 ```ts
 import { useWorldAuth } from "@radish-la/world-auth"
 
-const { user, isConnected, isConnecting, signIn, signOut } = useWorldAuth()
+const { user, isConnected, isMiniApp, isConnecting, signIn, signOut } =
+  useWorldAuth()
 
-// isConnecting: When login modal is open
+// isConnected: `true` when user and session is injected to MiniKit
+// isConnecting: `true` if login modal is open
 // signIn: request access to user information for mini app
 // signOut: clean up the connected session
+// isMiniApp: `true` when MiniKit is available in the browser
 
-// Consume the connected user info
-// user.wallletAddress
-// user.username
-// user.profilePictureUrl
+// To consume the connected user info you can pick values from:
+// user.walletAddress // User's worldchain address
+// user.username // Worldchain username
+// user.profilePictureUrl // Custom profile picture `undefined` by default
 ```
 
 [🔍 See example next14 repo](https://github.com/rabani-to/world/blob/master/packages/template-next-14/app/layout.tsx#L55)

@@ -5,10 +5,10 @@ import { Button } from "@worldcoin/mini-apps-ui-kit-react"
 import Brr from "./Brr"
 
 export default function Home() {
-  const { user, isConnected, signIn } = useWorldAuth({
+  const { user, isMiniApp, isConnected, signIn } = useWorldAuth({
     onWrongEnvironment() {
-      // something to do wen minikit is not installed
-      alert("Only works in World App")
+      // something to do when minikit is not installed
+      alert("Hey. This only works inside World App")
     },
   })
 
