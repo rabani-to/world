@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@radish-la/world-auth": "^0.0.1-alpha.18",
-    "@worldcoin/mini-apps-ui-kit-react": "^0.0.2",
+    "@worldcoin/mini-apps-ui-kit-react": "^1.0.2",
     "@worldcoin/minikit-js": "^1.8.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
