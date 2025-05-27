@@ -125,11 +125,13 @@ export const useWorldAuth = ({
   const isConnected = Boolean(user?.walletAddress)
   return {
     signIn,
+    /** Connected wallet address */
+    address: user?.walletAddress,
     // We don't expose user if not even wallet address is present
     // To keep it consistent with the rest of the API
     user: isConnected ? user : null,
     /** (WARN) Force set world user your self*/
-    reklesslySetUser: setUser,
+    recklesslySetUser: setUser,
     signOut,
     /** `true` when login modal is open in Mini App */
     isConnecting,
