@@ -14,7 +14,7 @@ npm install
 npm run dev
 ```
 
-## Teck stack
+## Tech stack
 
 - Auth: [@radish-la/world-auth](https://www.npmjs.com/package/@radish-la/world-auth)
 - UI Library: [World UI kit](https://mini-apps-ui-kit.world.org/?path=/docs/components-numberpad--docs)
