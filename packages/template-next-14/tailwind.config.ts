@@ -9,6 +9,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        display: "var(--font-display)",
+      },
       zIndex: {
         "1": "1",
         "2": "2",
