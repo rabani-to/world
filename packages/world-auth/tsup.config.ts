@@ -5,10 +5,11 @@ export default defineConfig({
   entry: {
     index: "./src/index.ts",
     server: "./src/server/index.ts",
+    utils: "./src/utils/index.ts",
   },
   format: ["esm", "cjs"],
   dts: true,
   minify: true,
   clean: true,
-  external: Object.keys(packageJson.peerDependencies),
+  external: ["swr", "viem", ...Object.keys(packageJson.peerDependencies)],
 })

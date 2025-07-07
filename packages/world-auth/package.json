@@ -31,6 +31,11 @@
       "types": "./dist/server.d.ts",
       "import": "./dist/server.mjs",
       "require": "./dist/server.js"
+    },
+    "./utils": {
+      "types": "./dist/utils.d.ts",
+      "import": "./dist/utils.mjs",
+      "require": "./dist/utils.js"
     }
   },
   "scripts": {
@@ -48,7 +53,9 @@
     "@worldcoin/minikit-js": "^1.8.0",
     "jotai": "^2.12.2",
     "react": "18",
+    "swr": "^2.3.4",
     "tsup": "^8.4.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "viem": "^2.31.7"
   }
 }
