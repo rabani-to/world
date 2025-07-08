@@ -10,6 +10,7 @@ import {
   erc20Abi,
   formatUnits,
   http,
+  parseAbi,
   type PublicClient,
 } from "viem"
 
@@ -18,17 +19,20 @@ export const TOKEN = {
   WLD: "0x2cFc85d8E48F8EAB294be644d9E25C3030863003",
 } as const
 
+export const ADDRESS_BOOK =
+  "0x57b930D551e677CC36e2fA036Ae2fe8FdaE0330D" as const
+
 const BASE_NAME_SPACE = "dwa"
 const toSpaceKey = (name: string) => `${BASE_NAME_SPACE}.${name}`
 
-const client = atom(
-  createPublicClient({
-    chain: worldchain,
-    transport: http(),
-  })
-)
+const client = createPublicClient({
+  chain: worldchain,
+  transport: http(),
+})
 
-export const useWorldClient = (): PublicClient => useAtom(client)[0] as any
+const atomClient = atom(client)
+
+export const useWorldClient = (): PublicClient => useAtom(atomClient)[0] as any
 export const useTokenDecimals = (token?: Address) => {
   const client = useWorldClient()
   const { data: decimals = 18 } = useSWR(
@@ -99,3 +103,43 @@ export const useBalance = (
 
 export const useWorldBalance = (address?: Address) =>
   useBalance(address, TOKEN.WLD)
+
+const ABI = parseAbi([
+  "function addressVerifiedUntil(address) view returns (uint256)",
+])
+
+export const isWorldAddressVerified = async (walletAddress: Address) => {
+  try {
+    const verifiedUntilTime = Number(
+      await client.readContract({
+        address: ADDRESS_BOOK,
+        abi: ABI,
+        functionName: "addressVerifiedUntil",
+        args: [walletAddress],
+      })
+    )
+
+    if (Number.isFinite(verifiedUntilTime)) {
+      const now = Math.floor(Date.now() / 1000)
+      return verifiedUntilTime > now
+    }
+  } catch (_) {}
+
+  return false
+}
+
+export const useIsVerifiedAddress = (address?: Address) => {
+  const {
+    data: isVerified = false,
+    isLoading,
+    error,
+  } = useSWR(address ? toSpaceKey(`isVerified.${address}`) : null, () =>
+    isWorldAddressVerified(address!)
+  )
+
+  return {
+    error,
+    isLoading,
+    isVerified,
+  }
+}
